@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private float lookSensivity = 3f;
 
+    [SerializeField]
+    private float jumpForce = 100f;
+
     private PlayerMotor playerMotor;
 
     void Start()
@@ -26,7 +29,15 @@ public class PlayerController : MonoBehaviour {
         playerMotor.Rotate(rotation);
 
         float xRot = Input.GetAxisRaw("Mouse Y");
-        Vector3 cameraRotation = new Vector3(xRot, 0f, 0f) * lookSensivity;
-        playerMotor.RotateCamera(-cameraRotation);
+        float cameraRotationX = xRot * lookSensivity;
+        playerMotor.RotateCamera(-cameraRotationX);
+
+        Vector3 jumpForceLocal = Vector3.zero;
+        if(Input.GetButton("Jump"))
+        {
+            jumpForceLocal = Vector3.up * jumpForce;
+        }
+
+        playerMotor.Jump(jumpForceLocal);
     }
 }
